@@ -135,6 +135,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+in-the-wild/
 .env
 .envrc
 .venv

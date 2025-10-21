@@ -15,6 +15,15 @@ activate_yolo = True  # Toggle for Nudity Detection ablation study
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+def pick_device():
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    elif torch.cuda.is_available():
+        return torch.device("cuda:0")
+    else:
+        return torch.device("cpu")
+
+
 load_dotenv()
 OPENAI_API = os.getenv('OPENAI_API')
 openai.api_key = OPENAI_API
@@ -23,7 +32,7 @@ print("🚀 INITIALIZING MULTI-AGENT VR CONTENT MODERATION SYSTEM")
 print("=" * 60)
 print(f"🔬 YOLO NSFW labels: {'ENABLED' if activate_yolo else 'DISABLED (Ablation Study)'}")
 yolo_model = YOLO(r"yolo_ft.pt")
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
+device = pick_device()
 print(f"🖥️  Device: {device}")
 clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
 clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
