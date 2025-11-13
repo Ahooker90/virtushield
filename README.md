@@ -94,7 +94,7 @@ By default, this will process 10 images from the `sample_data` directory.
 
 ### Custom Configuration
 
-Modify the main execution block in `moderation_pipeline_v4.py`:
+Modify the main execution block in `moderation_pipeline_v5.py`:
 
 ```python
 if __name__ == "__main__":
