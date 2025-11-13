@@ -105,18 +105,6 @@ if __name__ == "__main__":
     moderate_images("path/to/your/images", num_images=20)
 ```
 
-### Ablation Studies
-
-The system includes toggles for ablation studies:
-
-```python
-# Toggle reflection mechanism (line 13)
-reflection_active = True  # Set to False to disable reflection
-
-# Toggle YOLO nudity detection (line 14)
-activate_yolo = True  # Set to False to disable YOLO NSFW labels
-```
-
 ## Input Data Format
 
 ### Image Requirements
