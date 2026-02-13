@@ -11,7 +11,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import time
 reflection_active = False #Toggle for Reflection ablation study
-activate_yolo = True  # Toggle for Nudity Detection ablation study
+activate_yolo = False  # Toggle for Nudity Detection ablation study
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -48,6 +48,9 @@ explicit_prompt = "showing explicit nudity, including naked breasts, genitals, b
 safe_prompt = "showing no explicit nudity, with characters fully or partially clothed, or a scene without nudity and no characters present."
 nsfw_vs_safe_variants = [
     [f"{base_prompt} {explicit_prompt}", f"{base_prompt} {safe_prompt}"],
+]
+nsfw_vs_safe_variants = [
+    [f"Sexually Explicit", f"Not Sexually Explicit"],
 ]
 
 def take_consensus(probs):

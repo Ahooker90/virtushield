@@ -50,6 +50,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+/unsafe-ugcg-images
+Incorrect
+Filtered Data
 
 # Translations
 *.mo
@@ -205,3 +208,18 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# macOS
+.DS_Store
+
+# Images, PDFs, and archives
+*.png
+*.pdf
+*.zip
+
+# Data directories and files
+final-datasets/
+in-the-wild-full/
+test_run_folder_filter_data/
+evaluation_dataset.json
+reviews.md
