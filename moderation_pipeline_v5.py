@@ -11,7 +11,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import time
 reflection_active = False #Toggle for Reflection ablation study
-activate_yolo = False  # Toggle for Nudity Detection ablation study
+activate_yolo = True  # Toggle for Nudity Detection ablation study
 # Initialize logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -48,9 +48,6 @@ explicit_prompt = "showing explicit nudity, including naked breasts, genitals, b
 safe_prompt = "showing no explicit nudity, with characters fully or partially clothed, or a scene without nudity and no characters present."
 nsfw_vs_safe_variants = [
     [f"{base_prompt} {explicit_prompt}", f"{base_prompt} {safe_prompt}"],
-]
-nsfw_vs_safe_variants = [
-    [f"Sexually Explicit", f"Not Sexually Explicit"],
 ]
 
 def take_consensus(probs):
@@ -289,9 +286,18 @@ class NSFWMAssessmentAgent:
         return classification, nsfw_prob
 
 class SupervisorAgent:
-    def __init__(self):
+    def __init__(self, config=None):
         print("\n👔 SUPERVISOR AGENT INITIALIZED")
         print("   └─ Assembling agent team...")
+        if config is not None:
+            import moderation_pipeline_v5 as _mod
+            _mod.activate_yolo = config.get("activate_yolo", _mod.activate_yolo)
+            _mod.reflection_active = config.get("reflection_active", _mod.reflection_active)
+            if config.get("context_encoding", True):
+                _mod.nsfw_vs_safe_variants = [[f"{base_prompt} {explicit_prompt}", f"{base_prompt} {safe_prompt}"]]
+            else:
+                _mod.nsfw_vs_safe_variants = [[f"{explicit_prompt}", f"{safe_prompt}"]]
+            print(f"   └─ Config: yolo={_mod.activate_yolo}, reflection={_mod.reflection_active}, CE={config.get('context_encoding')}")
         self.detection_agent = DetectionAgent()
         print("   └─ ✅ Detection Agent ready")
         self.nsfw_agent = NSFWMAssessmentAgent()
